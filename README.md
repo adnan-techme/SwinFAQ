@@ -10,7 +10,7 @@ To run the program:
   pip install -r requirements.txt
 
 3) Inject API Key using:
-  export OPENAI_API_KEY='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'
+  export OPENAI_API_KEY='_insert key here_'
 
 4) Run the program:
   python main.py
