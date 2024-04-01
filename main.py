@@ -21,7 +21,7 @@ def find_relevant_faqs(question, faq_data, num_faqs=5):
 
 def ask_openai_with_context(question, faq_data):
     relevant_faqs = find_relevant_faqs(question, faq_data)
-    messages = [{"role": "system", "content": "You are a helpful assistant knowledgeable about queries regarding Swinburne University of Technology"}]
+    messages = [{"role": "system", "content": "You are a helpful assistant knowledgeable about queries regarding Swinburne University of Technology, if user ask something that is not about Swinburne University of Technology, you can answer with 'I am sorry i can only answer questions about Swinburne University'"}]
     messages += [{"role": "user", "content": faq["question"], "role": "assistant", "content": faq["answer"]} for faq in relevant_faqs]
     messages.append({"role": "user", "content": question})
 
@@ -34,6 +34,14 @@ def ask_openai_with_context(question, faq_data):
     return response.choices[0].message.content
 
 faq_data = load_faq_data('data.csv')
-user_question = input("Please ask a question: ")
-answer = ask_openai_with_context(user_question, faq_data)
-print(f"Answer: {answer}")
+
+# Loop until the user decides to quit
+while True:
+    user_question = input("\nPlease ask a question (or type 'end' to exit): ")
+    if user_question.lower() == 'end':
+        print("Exiting the program. Goodbye!")
+        break
+    
+    answer = ask_openai_with_context(user_question, faq_data)
+    print(f"\nAnswer: {answer} \n")
+    print("--------------------------------------------------\n\n")
